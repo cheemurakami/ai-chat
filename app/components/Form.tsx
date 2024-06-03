@@ -3,7 +3,7 @@
 import { Box, Button, TextField } from "@mui/material";
 import { getResponseText } from "../lib/actions";
 import { Message } from "../interface/message";
-import { Dispatch, FormEvent, SetStateAction } from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 
 export default function Form({
   messages,
@@ -12,6 +12,8 @@ export default function Form({
   messages: Message[];
   setMessages: Dispatch<SetStateAction<Message[]>>;
 }) {
+  const [loading, setLoading] = useState<boolean>(false);
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -21,15 +23,18 @@ export default function Form({
     const text = formData.get("question") as string;
 
     setMessages([...messages, { role: "user", content: text }]);
+    setLoading(true);
 
     formEl.reset();
-    getResponseText(text).then((result) => {
-      setMessages([
-        ...messages,
-        { role: "user", content: text },
-        { role: "AI", content: result },
-      ]);
-    });
+    getResponseText(text)
+      .then((result) => {
+        setMessages([
+          ...messages,
+          { role: "user", content: text },
+          { role: "AI", content: result },
+        ]);
+      })
+      .then(() => setLoading(false));
   }
 
   return (
@@ -65,7 +70,7 @@ export default function Form({
               variant="outlined"
               sx={{ margin: 2, width: "20%", height: "3.5rem" }}
             >
-              Ask
+              {loading ? "..." : "Ask"}
             </Button>
           </Box>
         </Box>
