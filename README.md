@@ -1,3 +1,12 @@
+## AI chat 🐈‍⬛
+
+![](https://github.com/cheemurakami/ai-chat/blob/main/image.png?raw=true)
+
+## Technologies 🧰
+- Google Gemini API: https://ai.google.dev/gemini-api
+- Next.js
+- React
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
